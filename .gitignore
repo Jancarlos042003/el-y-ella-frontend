@@ -20,7 +20,18 @@
 
 # misc
 .DS_Store
+Thumbs.db
 *.pem
+
+# vercel
+.vercel
+
+# turbo
+.turbo
+
+# claude code
+skills-lock.json
+.claude/settings.local.json
 
 # debug
 npm-debug.log*
@@ -28,8 +39,10 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
-# env files
-.env*.local
+# env files (todas las variantes; mantener solo .env.example si existe)
+.env
+.env.*
+!.env.example
 
 # typescript
 *.tsbuildinfo
