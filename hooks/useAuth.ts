@@ -4,6 +4,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useRouter } from 'next/navigation'
 import api from '@/lib/api'
 import { useSaleStore } from '@/store/saleStore'
+import { ROUTES } from '@/constants/routes'
 import type { LoginInput, RegisterInput, AuthResponse } from '@/types/auth.types'
 
 export function useMe() {
@@ -22,9 +23,13 @@ export function useLogin() {
   return useMutation({
     mutationFn: (data: LoginInput) =>
       api.post<AuthResponse>('/api/v1/auth/login', data).then((r) => r.data),
-    onSuccess: () => {
+    onSuccess: (user) => {
       queryClient.invalidateQueries({ queryKey: ['me'] })
-      router.push('/')
+      if (user.role === 'ADMIN') {
+        router.push(ROUTES.admin)
+      } else {
+        router.push(ROUTES.home)
+      }
     },
   })
 }
@@ -36,9 +41,13 @@ export function useRegister() {
   return useMutation({
     mutationFn: (data: RegisterInput) =>
       api.post<AuthResponse>('/api/v1/auth/register', data).then((r) => r.data),
-    onSuccess: () => {
+    onSuccess: (user) => {
       queryClient.invalidateQueries({ queryKey: ['me'] })
-      router.push('/')
+      if (user.role === 'ADMIN') {
+        router.push(ROUTES.admin)
+      } else {
+        router.push(ROUTES.home)
+      }
     },
   })
 }
