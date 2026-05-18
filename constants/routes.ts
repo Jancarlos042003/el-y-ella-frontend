@@ -1,0 +1,16 @@
+export const ROUTES = {
+  home: '/',
+  login: '/login',
+  register: '/register',
+  catalogo: (categoria: string) => `/catalogo/${categoria}`,
+  flores: (id: string | number) => `/flores/${id}`,
+  carrito: '/carrito',
+  pago: '/pago',
+  pagoExito: '/pago/exito',
+  pagoPendiente: '/pago/pendiente',
+  pagoError: '/pago/error',
+  pedidos: '/pedidos',
+  pedido: (id: string | number) => `/pedidos/${id}`,
+  perfil: '/perfil',
+  admin: '/admin',
+} as const
