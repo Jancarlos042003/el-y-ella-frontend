@@ -13,4 +13,9 @@ export const ROUTES = {
   pedido: (id: string | number) => `/pedidos/${id}`,
   perfil: '/perfil',
   admin: '/admin',
+  adminFlores: '/admin/flores',
+  adminCategorias: '/admin/categorias',
+  adminPedidos: '/admin/pedidos',
+  adminUsuarios: '/admin/usuarios',
+  adminReportes: '/admin/reportes',
 } as const

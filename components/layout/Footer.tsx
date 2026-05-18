@@ -10,22 +10,7 @@ import {
 } from '@hugeicons/core-free-icons'
 
 import { ROUTES } from '@/constants/routes'
-
-const CATEGORIES = [
-  { label: 'Rosas', href: ROUTES.catalogo('rosas') },
-  { label: 'Tulipanes', href: ROUTES.catalogo('tulipanes') },
-  { label: 'Girasoles', href: ROUTES.catalogo('girasoles') },
-  { label: 'Bouquets', href: ROUTES.catalogo('bouquets') },
-  { label: 'Ocasiones especiales', href: '/ocasiones' },
-]
-
-const HELP_LINKS = [
-  { label: 'Preguntas frecuentes', href: '/faq' },
-  { label: 'Envíos y entregas', href: '/envios' },
-  { label: 'Devoluciones', href: '/devoluciones' },
-  { label: 'Términos y condiciones', href: '/terminos' },
-  { label: 'Privacidad', href: '/privacidad' },
-]
+import { FOOTER_CATEGORIES, FOOTER_HELP_LINKS } from '@/constants/navigation'
 
 const SOCIAL = [
   { icon: InstagramIcon, href: 'https://instagram.com', label: 'Instagram' },
@@ -77,7 +62,7 @@ export function Footer() {
               Ayuda
             </h3>
             <ul className="flex flex-col gap-2">
-              {HELP_LINKS.map((link) => (
+              {FOOTER_HELP_LINKS.map((link) => (
                 <li key={link.href}>
                   <Link
                     href={link.href}
@@ -96,7 +81,7 @@ export function Footer() {
               Catálogo
             </h3>
             <ul className="flex flex-col gap-2">
-              {CATEGORIES.map((cat) => (
+              {FOOTER_CATEGORIES.map((cat) => (
                 <li key={cat.href}>
                   <Link
                     href={cat.href}

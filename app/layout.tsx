@@ -3,8 +3,6 @@ import { Poppins, Playfair_Display } from 'next/font/google'
 import './globals.css'
 import { cn } from '@/lib/utils'
 import { Providers } from '@/components/Providers'
-import { Navbar } from '@/components/layout/Navbar'
-import { Footer } from '@/components/layout/Footer'
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -36,12 +34,7 @@ export default function RootLayout({
     >
       <body className="antialiased">
         <Providers>
-          <Navbar />
-          {/* pt compensa el navbar fijo; pb-16 compensa el bottom nav en mobile */}
-          <main className="min-h-screen pt-[5.5rem] pb-16 lg:pb-0">
-            {children}
-          </main>
-          <Footer />
+          {children}
         </Providers>
       </body>
     </html>
