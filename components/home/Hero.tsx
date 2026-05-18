@@ -27,14 +27,11 @@ const TRUST_BADGES_MOBILE = [
 export function Hero() {
   return (
     <section className="relative min-h-[calc(100svh-5.5rem)] overflow-hidden">
-      {/* ══════════════════════════════════════════
-          MOBILE / TABLET  (< lg)
-          Bouquet PNG + fondo rosa + card inferior
-      ══════════════════════════════════════════ */}
+      {/* MOBILE / TABLET  (< lg) */}
       <div className="relative flex min-h-[calc(100svh-5.5rem)] flex-col lg:hidden">
-        {/* fondo foto completo */}
+        {/* object-center: fondo rosa arriba (legible) + jarrón abajo (visual) */}
         <Image
-          src="/images/bg-hero-mobile.png"
+          src="/images/mobile-bg.png"
           alt=""
           fill
           priority
@@ -42,49 +39,16 @@ export function Hero() {
           sizes="100vw"
         />
 
-        {/* espaciador — empuja el contenido al fondo */}
-        <div className="flex-1" />
+        {/* scrim superior — suaviza el fondo detrás de la card */}
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-2/3 bg-gradient-to-b from-white/80 via-white/20 to-transparent dark:from-[#1a0a0f]/80 dark:via-[#1a0a0f]/20" />
 
-        {/* zona card: tres capas — mx-4/mb-6 da el efecto flotante */}
-        <div className="relative z-10 mx-4 mb-6">
-          {/* capa 1: glass card — anima hacia arriba
-              72% opacidad + backdrop-blur-[12px] = glassmorphism del design system */}
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, ease: "easeOut" as const }}
-            className="absolute inset-0 z-[1] rounded-[2rem] border border-white/50 bg-white/[72%] shadow-[0_8px_40px_rgba(0,0,0,0.08)] backdrop-blur-[12px] dark:border-white/10 dark:bg-[#1a0a0f]/65"
-          />
-
-          {/* capa 2: bouquet — anima desde arriba (opuesto al card)
-              -top-[10rem] sube el ramo 160px; h-[20rem] = 320px → solapa 160px en la card
-              w-64 = 256px cabe en cualquier móvil sin desbordarse */}
-          <motion.div
-            initial={{ opacity: 0, y: -24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, ease: "easeOut" as const }}
-            className="pointer-events-none absolute -top-40 left-1/2 z-[5] h-[13rem] w-64 -translate-x-1/2"
-          >
-            <Image
-              src="/images/ramo-flores-banner.png"
-              alt="Bouquet de rosas"
-              fill
-              className="object-contain object-bottom drop-shadow-2xl"
-            />
-          </motion.div>
-
-          {/* capa 3: texto — anima hacia arriba, encima del bouquet
-              pt-44 = 176px > 160px de solapado → el texto empieza justo bajo el jarrón */}
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{
-              duration: 0.5,
-              ease: "easeOut" as const,
-              delay: 0.05,
-            }}
-            className="relative z-[10] flex flex-col gap-3.5 rounded-[2rem] p-6"
-          >
+        {/* card glass en la parte superior */}
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, ease: "easeOut" as const }}
+          className="relative z-10 mx-4 mt-6 flex flex-col gap-3.5 rounded-[2rem] border border-white/60 bg-white/[72%] p-6 shadow-[0_8px_40px_rgba(0,0,0,0.08)] backdrop-blur-[12px] dark:border-white/10 dark:bg-[#1a0a0f]/65"
+        >
             {/* badge */}
             <span className="inline-flex w-fit items-center gap-1.5 rounded-full border border-[#ff69b4]/30 bg-[#ff69b4]/10 px-3 py-1 text-xs font-semibold tracking-wider text-[#ff69b4] uppercase">
               ⭐ Envío el mismo día
@@ -92,7 +56,7 @@ export function Hero() {
 
             {/* heading */}
             <div>
-              <h1 className="font-serif text-3xl leading-tight font-bold text-[#151515]">
+              <h1 className="font-serif text-3xl leading-tight font-bold text-[#151515] dark:text-white">
                 Flores elegantes para{" "}
                 <span className="text-[#ff69b4]">momentos especiales</span>
               </h1>
@@ -118,10 +82,16 @@ export function Hero() {
                   strokeWidth={1.5}
                 />
               </Link>
+              <Link
+                href="/catalogo"
+                className="flex items-center rounded-full border border-[#151515]/15 bg-white/60 px-5 py-2.5 text-sm font-semibold text-[#151515] transition-colors hover:bg-white/80 dark:border-white/15 dark:bg-white/10 dark:text-white"
+              >
+                Ver colecciones
+              </Link>
             </div>
 
-            {/* trust badges mobile — icono + etiqueta corta con divisores */}
-            <div className="flex items-center divide-x divide-black/10 border-t border-black/8 pt-4">
+            {/* trust badges mobile */}
+            <div className="flex items-center divide-x divide-black/10 border-t border-black/8 pt-4 dark:divide-white/10 dark:border-white/8">
               {TRUST_BADGES_MOBILE.map(({ icon, label }) => (
                 <div
                   key={label}
@@ -132,12 +102,14 @@ export function Hero() {
                     className="size-5 shrink-0 text-[#ff69b4]"
                     strokeWidth={1.5}
                   />
-                  <span className="font-medium text-[#151515]">{label}</span>
+                  <span className="font-medium text-[#151515] dark:text-white">{label}</span>
                 </div>
               ))}
             </div>
-          </motion.div>
-        </div>
+        </motion.div>
+
+        {/* espacio libre — deja ver el jarrón en la parte inferior */}
+        <div className="flex-1" />
       </div>
 
       {/* ══════════════════════════════════════════
