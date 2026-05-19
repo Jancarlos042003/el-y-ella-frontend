@@ -1,29 +1,28 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Link from "next/link"
-import { useRouter } from "next/navigation"
 import { AnimatePresence, motion } from "motion/react"
 import { HugeiconsIcon } from "@hugeicons/react"
 import {
   FlowerIcon,
   Search01Icon,
-  User02Icon,
   ShoppingCart01Icon,
   Menu01Icon,
   Cancel01Icon,
-  FavouriteIcon,
-  Home01Icon,
-  GridIcon,
-  Logout01Icon,
-  ShoppingBag01Icon,
-  Settings01Icon,
+  User02Icon,
 } from "@hugeicons/core-free-icons"
 
 import { ROUTES } from "@/constants/routes"
 import { useMe, useLogout } from "@/hooks/useAuth"
 import { useSaleStore } from "@/store/saleStore"
+import { cn } from "@/lib/utils"
+
+// Sub-componentes
 import { UserDropdown } from "./UserDropdown"
+import { NavbarSearch } from "./parts/NavbarSearch"
+import { NavbarMobileMenu } from "./parts/NavbarMobileMenu"
+import { NavbarBottomNav } from "./parts/NavbarBottomNav"
 
 const NAV_LINKS = [
   { label: "Rosas", href: ROUTES.catalogo("rosas") },
@@ -33,55 +32,45 @@ const NAV_LINKS = [
   { label: "Ocasiones", href: "/ocasiones" },
 ]
 
-const MOBILE_NAV = [
-  { label: "Inicio", href: ROUTES.home, icon: Home01Icon },
-  { label: "Categorías", href: "/catalogo", icon: GridIcon },
-  { label: "Favoritos", href: "/favoritos", icon: FavouriteIcon },
-  { label: "Carrito", href: ROUTES.carrito, icon: ShoppingCart01Icon },
-  { label: "Cuenta", href: ROUTES.perfil, icon: User02Icon },
-]
-
 export function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false)
   const [searchOpen, setSearchOpen] = useState(false)
-  const [searchQuery, setSearchQuery] = useState("")
-  const router = useRouter()
+  const [scrolled, setScrolled] = useState(false)
 
   const { data: user } = useMe()
   const logout = useLogout()
   const cartCount = useSaleStore((s) => s.cartCount)
 
-  function handleSearch(e: React.FormEvent) {
-    e.preventDefault()
-    if (!searchQuery.trim()) return
-    router.push(`/catalogo?q=${encodeURIComponent(searchQuery.trim())}`)
-    setMobileOpen(false)
-    setSearchOpen(false)
-  }
-
-  function toggleSearch() {
-    setSearchOpen((v) => !v)
-    setMobileOpen(false)
-  }
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 80)
+    window.addEventListener("scroll", handleScroll)
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, [])
 
   return (
     <>
-      {/* ── barra superior ── */}
-      <header className="fixed inset-x-0 top-0 z-50 bg-white/55 backdrop-blur-md dark:bg-[#1a0a0f]/75">
+      <header
+        className={cn(
+          "transition-luxury fixed inset-x-0 top-0 z-50",
+          scrolled
+            ? "shadow-soft bg-white/95 py-0 dark:bg-background/95"
+            : "bg-white/55 py-2 backdrop-blur-md dark:bg-background/75"
+        )}
+      >
         <nav className="mx-auto flex h-[5.5rem] max-w-[90rem] items-center gap-3 px-4 md:gap-4 md:px-6">
           {/* logo */}
           <Link href={ROUTES.home} className="flex shrink-0 items-center gap-2">
             <HugeiconsIcon
               icon={FlowerIcon}
-              className="size-6 text-[#ff69b4]"
+              className="size-6 text-primary"
               strokeWidth={1.5}
             />
             <div className="flex flex-col leading-none">
-              <span className="font-serif text-lg font-bold text-[#151515] dark:text-white">
+              <span className="font-serif text-lg font-bold text-foreground dark:text-white">
                 El y ella
               </span>
-              <span className="hidden text-[8px] font-semibold tracking-widest text-[#ff69b4] sm:block">
-                FLORES QUE CUENTAN HISTORIAS
+              <span className="hidden text-[8px] font-semibold tracking-widest text-primary uppercase sm:block">
+                Flores que cuentan historias
               </span>
             </div>
           </Link>
@@ -92,17 +81,17 @@ export function Navbar() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="rounded-full px-3 py-1.5 text-sm font-medium text-[#151515]/75 transition-colors hover:bg-[#ff69b4]/10 hover:text-[#ff69b4] dark:text-white/75"
+                className="transition-luxury rounded-full px-3 py-1.5 text-sm font-medium text-foreground/75 hover:bg-primary/10 hover:text-primary dark:text-white/75"
               >
                 {link.label}
               </Link>
             ))}
             <Link
               href="/ofertas"
-              className="flex items-center gap-1.5 rounded-full px-3 py-1.5 text-sm font-medium text-[#151515]/75 transition-colors hover:bg-[#ff69b4]/10 hover:text-[#ff69b4] dark:text-white/75"
+              className="transition-luxury flex items-center gap-1.5 rounded-full px-3 py-1.5 text-sm font-medium text-foreground/75 hover:bg-primary/10 hover:text-primary dark:text-white/75"
             >
               Ofertas
-              <span className="rounded-full bg-red-500 px-1.5 py-px text-[10px] leading-tight font-bold text-white">
+              <span className="rounded-full border border-destructive/20 bg-destructive/10 px-1.5 py-px text-[10px] leading-tight font-bold text-destructive">
                 Nuevo
               </span>
             </Link>
@@ -112,9 +101,12 @@ export function Navbar() {
 
           {/* botón búsqueda — solo mobile/tablet */}
           <button
-            onClick={toggleSearch}
+            onClick={() => {
+              setSearchOpen(!searchOpen)
+              setMobileOpen(false)
+            }}
             aria-label={searchOpen ? "Cerrar búsqueda" : "Abrir búsqueda"}
-            className="flex items-center justify-center rounded-full bg-[#ff69b4] p-2 transition-colors hover:bg-[#ff69b4]/90 lg:hidden"
+            className="transition-luxury hover:bg-primary-dark flex items-center justify-center rounded-full bg-primary p-2 lg:hidden"
           >
             <HugeiconsIcon
               icon={searchOpen ? Cancel01Icon : Search01Icon}
@@ -124,22 +116,7 @@ export function Navbar() {
           </button>
 
           {/* buscador — solo desktop */}
-          <form onSubmit={handleSearch} className="hidden md:block">
-            <div className="flex items-center gap-2 rounded-full border border-black/10 bg-white/60 px-3 py-1.5 text-sm dark:border-white/10 dark:bg-white/5">
-              <HugeiconsIcon
-                icon={Search01Icon}
-                className="size-4 shrink-0 text-[#ff69b4]"
-                strokeWidth={1.5}
-              />
-              <input
-                type="text"
-                placeholder="Buscar flores, bouquets..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-44 bg-transparent outline-none placeholder:text-[#151515]/40 dark:text-white dark:placeholder:text-white/40"
-              />
-            </div>
-          </form>
+          <NavbarSearch className="hidden lg:block" />
 
           {/* usuario — solo desktop */}
           <div className="hidden items-center md:flex">
@@ -148,7 +125,7 @@ export function Navbar() {
             ) : (
               <Link
                 href={ROUTES.login}
-                className="flex items-center gap-1.5 text-sm font-medium text-[#151515]/75 transition-colors hover:text-[#ff69b4] dark:text-white/75"
+                className="transition-luxury flex items-center gap-1.5 text-sm font-medium text-foreground/75 hover:text-primary dark:text-white/75"
               >
                 <HugeiconsIcon
                   icon={User02Icon}
@@ -163,7 +140,7 @@ export function Navbar() {
           {/* carrito */}
           <Link
             href={ROUTES.carrito}
-            className="relative hidden items-center gap-1.5 rounded-full border border-[#ff69b4]/15 bg-[#ff69b4]/10 px-3 py-1.5 text-sm font-semibold text-[#ff69b4] transition-all duration-200 hover:border-[#ff69b4]/25 hover:bg-[#ff69b4]/25 hover:text-white lg:flex"
+            className="transition-luxury relative hidden items-center gap-1.5 rounded-full border border-primary/15 bg-primary/10 px-3 py-1.5 text-sm font-semibold text-primary hover:border-primary/25 hover:bg-primary/25 lg:flex"
           >
             <HugeiconsIcon
               icon={ShoppingCart01Icon}
@@ -172,7 +149,7 @@ export function Navbar() {
             />
             <span>Carrito</span>
             {cartCount > 0 && (
-              <span className="flex size-4 items-center justify-center rounded-full bg-white text-[10px] font-bold text-[#ff69b4]">
+              <span className="flex size-4 items-center justify-center rounded-full bg-white text-[10px] font-bold text-primary shadow-sm">
                 {cartCount}
               </span>
             )}
@@ -181,149 +158,47 @@ export function Navbar() {
           {/* hamburguesa — solo mobile/tablet */}
           <button
             onClick={() => {
-              setMobileOpen((v) => !v)
+              setMobileOpen(!mobileOpen)
               setSearchOpen(false)
             }}
             aria-label={mobileOpen ? "Cerrar menú" : "Abrir menú"}
-            className="flex items-center justify-center rounded-full p-2 transition-colors hover:bg-[#ff69b4]/10 lg:hidden"
+            className="transition-luxury flex items-center justify-center rounded-full p-2 hover:bg-primary/10 lg:hidden"
           >
             <HugeiconsIcon
               icon={mobileOpen ? Cancel01Icon : Menu01Icon}
-              className="size-5 text-[#151515] dark:text-white"
+              className="size-5 text-foreground dark:text-white"
               strokeWidth={1.5}
             />
           </button>
         </nav>
 
-        {/* buscador mobile — aparece al presionar el botón de lupa */}
+        {/* buscador mobile */}
         <AnimatePresence>
           {searchOpen && (
             <motion.div
-              key="mobile-search"
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
-              transition={{ type: "spring", stiffness: 340, damping: 30 }}
+              transition={{ duration: 0.2 }}
               className="overflow-hidden md:hidden"
             >
-              <motion.form
-                onSubmit={handleSearch}
-                initial={{ y: -8 }}
-                animate={{ y: 0 }}
-                exit={{ y: -8 }}
-                transition={{ type: "spring", stiffness: 340, damping: 30 }}
-                className="px-4 pb-3"
-              >
-                <div className="flex items-center gap-2 rounded-full border border-black/10 bg-white/60 px-3 py-2 text-sm dark:border-white/10 dark:bg-white/5">
-                  <HugeiconsIcon
-                    icon={Search01Icon}
-                    className="size-4 shrink-0 text-[#ff69b4]"
-                    strokeWidth={1.5}
-                  />
-                  <input
-                    autoFocus
-                    type="text"
-                    placeholder="Buscar flores, bouquets..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    className="flex-1 bg-transparent outline-none placeholder:text-[#151515]/40 dark:text-white dark:placeholder:text-white/40"
-                  />
-                </div>
-              </motion.form>
+              <NavbarSearch isMobile onClose={() => setSearchOpen(false)} />
             </motion.div>
           )}
         </AnimatePresence>
       </header>
 
-      {/* ── menú mobile deslizable ── */}
-      <AnimatePresence>
-        {mobileOpen && (
-          <motion.div
-            key="mobile-menu"
-            initial={{ opacity: 0, x: "-100%" }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: "-100%" }}
-            transition={{ type: "spring", stiffness: 320, damping: 32 }}
-            className="fixed inset-0 z-40 bg-[#f9f5f0]/95 px-6 pt-28 pb-24 backdrop-blur-md lg:hidden dark:bg-[#1a0a0f]/95"
-          >
-            <nav className="flex flex-col gap-1">
-              {NAV_LINKS.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  onClick={() => setMobileOpen(false)}
-                  className="rounded-2xl px-4 py-3 text-lg font-medium text-[#151515] transition-colors hover:bg-[#ff69b4]/10 hover:text-[#ff69b4] dark:text-white"
-                >
-                  {link.label}
-                </Link>
-              ))}
-              <Link
-                href="/ofertas"
-                onClick={() => setMobileOpen(false)}
-                className="flex items-center gap-2 rounded-2xl px-4 py-3 text-lg font-medium text-[#151515] transition-colors hover:text-[#ff69b4] dark:text-white"
-              >
-                Ofertas
-                <span className="rounded-full bg-red-500 px-2 py-0.5 text-xs font-bold text-white">
-                  Nuevo
-                </span>
-              </Link>
+      {/* menú mobile deslizable */}
+      <NavbarMobileMenu
+        isOpen={mobileOpen}
+        onClose={() => setMobileOpen(false)}
+        navLinks={NAV_LINKS}
+        user={user}
+        logout={logout}
+      />
 
-              <hr className="my-3 border-black/10 dark:border-white/10" />
-
-              {user ? (
-                <div className="flex flex-col gap-1">
-                  <p className="px-4 py-2 text-base text-[#151515]/60 dark:text-white/60">
-                    Hola, {user.name} 👋
-                  </p>
-                  <button
-                    onClick={() => logout.mutate()}
-                    disabled={logout.isPending}
-                    className="flex items-center gap-2 rounded-2xl px-4 py-3 text-lg font-medium text-red-500 transition-colors hover:bg-red-50 disabled:opacity-50 dark:hover:bg-red-950/20"
-                  >
-                    <HugeiconsIcon
-                      icon={Logout01Icon}
-                      className="size-5"
-                      strokeWidth={1.5}
-                    />
-                    {logout.isPending ? "Cerrando sesión..." : "Cerrar sesión"}
-                  </button>
-                </div>
-              ) : (
-                <Link
-                  href={ROUTES.login}
-                  onClick={() => setMobileOpen(false)}
-                  className="flex items-center gap-2 rounded-2xl px-4 py-3 text-lg font-medium text-[#151515] hover:text-[#ff69b4] dark:text-white"
-                >
-                  <HugeiconsIcon
-                    icon={User02Icon}
-                    className="size-5"
-                    strokeWidth={1.5}
-                  />
-                  Iniciar sesión
-                </Link>
-              )}
-            </nav>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* ── nav inferior mobile (estilo iOS) ── */}
-      <nav className="fixed inset-x-0 bottom-0 z-50 flex items-center justify-around border-t border-black/10 bg-white/80 py-2 backdrop-blur-md lg:hidden dark:border-white/10 dark:bg-[#1a0a0f]/80">
-        {MOBILE_NAV.map((item) => (
-          <Link
-            key={item.href}
-            href={item.href}
-            className="flex flex-col items-center gap-0.5 px-3 py-1 text-[#151515]/60 transition-colors hover:text-[#ff69b4] dark:text-white/60"
-          >
-            <HugeiconsIcon
-              icon={item.icon}
-              className="size-5"
-              strokeWidth={1.5}
-            />
-            <span className="text-[10px] font-medium">{item.label}</span>
-          </Link>
-        ))}
-      </nav>
+      {/* nav inferior mobile */}
+      <NavbarBottomNav />
     </>
   )
 }

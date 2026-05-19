@@ -11,6 +11,7 @@ import {
 
 import { ROUTES } from '@/constants/routes'
 import { FOOTER_CATEGORIES, FOOTER_HELP_LINKS } from '@/constants/navigation'
+import { cn } from '@/lib/utils'
 
 const SOCIAL = [
   { icon: InstagramIcon, href: 'https://instagram.com', label: 'Instagram' },
@@ -20,8 +21,11 @@ const SOCIAL = [
 ]
 
 export function Footer() {
+  const linkClass = "text-sm text-foreground/60 transition-luxury hover:text-primary dark:text-white/60"
+  const titleClass = "text-sm font-semibold uppercase tracking-wider text-foreground dark:text-white"
+
   return (
-    <footer className="mt-auto border-t border-black/10 bg-white/80 backdrop-blur-sm dark:border-white/10 dark:bg-[#1a0a0f]/80">
+    <footer className="mt-auto border-t border-border bg-background/80 backdrop-blur-sm dark:bg-background/80">
       <div className="mx-auto max-w-[90rem] px-4 py-12 md:px-6">
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
           {/* columna 1 — marca */}
@@ -29,14 +33,14 @@ export function Footer() {
             <Link href={ROUTES.home} className="flex items-center gap-2">
               <HugeiconsIcon
                 icon={FlowerIcon}
-                className="size-6 text-[#ff69b4]"
+                className="size-6 text-primary"
                 strokeWidth={1.5}
               />
-              <span className="font-serif text-xl font-bold text-[#151515] dark:text-white">
+              <span className="font-serif text-xl font-bold text-foreground dark:text-white">
                 El y ella
               </span>
             </Link>
-            <p className="text-sm leading-relaxed text-[#151515]/60 dark:text-white/60">
+            <p className="text-sm leading-relaxed text-foreground/60 dark:text-white/60">
               Bouquets premium elaborados con flores frescas y entregas que enamoran. Llevamos tu
               mensaje en cada pétalo.
             </p>
@@ -48,7 +52,7 @@ export function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={label}
-                  className="flex size-8 items-center justify-center rounded-full border border-black/10 text-[#151515]/60 transition-colors hover:border-[#ff69b4] hover:text-[#ff69b4] dark:border-white/10 dark:text-white/60"
+                  className="flex size-8 items-center justify-center rounded-full border border-border text-foreground/60 transition-luxury hover:border-primary hover:text-primary dark:text-white/60"
                 >
                   <HugeiconsIcon icon={icon} className="size-4" strokeWidth={1.5} />
                 </a>
@@ -58,7 +62,7 @@ export function Footer() {
 
           {/* columna 2 — ayuda */}
           <div className="flex flex-col gap-3">
-            <h3 className="text-sm font-semibold uppercase tracking-wider text-[#151515] dark:text-white">
+            <h3 className={titleClass}>
               Ayuda
             </h3>
             <ul className="flex flex-col gap-2">
@@ -66,7 +70,7 @@ export function Footer() {
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-sm text-[#151515]/60 transition-colors hover:text-[#ff69b4] dark:text-white/60"
+                    className={linkClass}
                   >
                     {link.label}
                   </Link>
@@ -77,7 +81,7 @@ export function Footer() {
 
           {/* columna 3 — categorías */}
           <div className="flex flex-col gap-3">
-            <h3 className="text-sm font-semibold uppercase tracking-wider text-[#151515] dark:text-white">
+            <h3 className={titleClass}>
               Catálogo
             </h3>
             <ul className="flex flex-col gap-2">
@@ -85,7 +89,7 @@ export function Footer() {
                 <li key={cat.href}>
                   <Link
                     href={cat.href}
-                    className="text-sm text-[#151515]/60 transition-colors hover:text-[#ff69b4] dark:text-white/60"
+                    className={linkClass}
                   >
                     {cat.label}
                   </Link>
@@ -96,14 +100,14 @@ export function Footer() {
 
           {/* columna 4 — contacto */}
           <div className="flex flex-col gap-3">
-            <h3 className="text-sm font-semibold uppercase tracking-wider text-[#151515] dark:text-white">
+            <h3 className={titleClass}>
               Contacto
             </h3>
             <ul className="flex flex-col gap-3">
               <li>
                 <a
-                  href="mailto:hola@elyellade talles.pe"
-                  className="flex items-center gap-2 text-sm text-[#151515]/60 transition-colors hover:text-[#ff69b4] dark:text-white/60"
+                  href="mailto:hola@elyelladetalles.pe"
+                  className={linkClass + " flex items-center gap-2"}
                 >
                   <HugeiconsIcon icon={Mail01Icon} className="size-4 shrink-0" strokeWidth={1.5} />
                   hola@elyelladetalles.pe
@@ -114,7 +118,7 @@ export function Footer() {
                   href="https://wa.me/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-2 text-sm text-[#151515]/60 transition-colors hover:text-[#ff69b4] dark:text-white/60"
+                  className={linkClass + " flex items-center gap-2"}
                 >
                   <HugeiconsIcon
                     icon={WhatsappIcon}
@@ -125,7 +129,7 @@ export function Footer() {
                 </a>
               </li>
             </ul>
-            <p className="mt-2 text-xs text-[#151515]/40 dark:text-white/40">
+            <p className="mt-2 text-xs text-foreground/40 dark:text-white/40">
               Lun – Sáb: 9:00 am – 7:00 pm
               <br />
               Dom: 10:00 am – 4:00 pm
@@ -134,7 +138,7 @@ export function Footer() {
         </div>
 
         {/* línea inferior */}
-        <div className="mt-10 border-t border-black/10 pt-6 text-center text-xs text-[#151515]/40 dark:border-white/10 dark:text-white/40">
+        <div className="mt-10 border-t border-border pt-6 text-center text-xs text-foreground/40 dark:text-white/40">
           © {new Date().getFullYear()} El y Ella Detalles. Todos los derechos reservados.
         </div>
       </div>
