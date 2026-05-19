@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { HugeiconsIcon } from '@hugeicons/react'
 import { Mail01Icon, ArrowRight01Icon, CheckmarkCircle02Icon } from '@hugeicons/core-free-icons'
+import { cn } from '@/lib/utils'
 
 export function Newsletter() {
   const [email, setEmail] = useState('')
@@ -18,19 +19,19 @@ export function Newsletter() {
   return (
     <section className="py-16">
       <div className="mx-auto max-w-[90rem] px-4 md:px-6">
-        <div className="flex flex-col items-center gap-6 rounded-[2rem] border border-white/45 bg-white/70 p-8 text-center shadow-[0_4px_24px_rgba(0,0,0,0.06)] backdrop-blur-[12px] dark:border-[#ff69b4]/15 dark:bg-[#1a0a0f]/70 md:p-12">
+        <div className="flex flex-col items-center gap-6 rounded-[2rem] glass p-8 text-center shadow-floating md:p-12">
           {/* ícono */}
-          <div className="flex size-14 items-center justify-center rounded-full bg-[#ff69b4]/15">
-            <HugeiconsIcon icon={Mail01Icon} className="size-7 text-[#ff69b4]" strokeWidth={1.5} />
+          <div className="flex size-14 items-center justify-center rounded-full bg-primary/15">
+            <HugeiconsIcon icon={Mail01Icon} className="size-7 text-primary" strokeWidth={1.5} />
           </div>
 
           {/* título */}
           <div>
-            <h2 className="font-serif text-2xl font-bold text-[#151515] dark:text-white md:text-3xl">
+            <h2 className="font-serif text-2xl font-bold text-foreground dark:text-white md:text-3xl">
               Suscríbete y recibe{' '}
-              <span className="text-[#ff69b4]">ofertas exclusivas</span>
+              <span className="text-primary">ofertas exclusivas</span>
             </h2>
-            <p className="mt-2 text-sm text-[#151515]/60 dark:text-white/60">
+            <p className="mt-2 text-sm text-foreground/60 dark:text-white/60">
               Descuentos, novedades y promociones especiales directo a tu correo.
             </p>
           </div>
@@ -52,11 +53,14 @@ export function Newsletter() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="tu@correo.com"
-                className="flex-1 rounded-full border border-black/10 bg-white/80 px-5 py-3 text-sm outline-none placeholder:text-[#151515]/40 focus:border-[#ff69b4] dark:border-white/10 dark:bg-white/5 dark:text-white dark:placeholder:text-white/40 dark:focus:border-[#ff69b4]"
+                className={cn(
+                  "flex-1 rounded-full border border-border bg-white/80 px-5 py-3 text-sm outline-none transition-luxury",
+                  "placeholder:text-foreground/40 focus:border-primary dark:bg-white/5 dark:text-white dark:placeholder:text-white/40"
+                )}
               />
               <button
                 type="submit"
-                className="flex items-center justify-center gap-2 rounded-full bg-[#ff69b4] px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-[#ff69b4]/90 shrink-0"
+                className="flex items-center justify-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-semibold text-white transition-luxury hover:bg-primary-dark shrink-0"
               >
                 Suscribirme
                 <HugeiconsIcon icon={ArrowRight01Icon} className="size-4" strokeWidth={1.5} />

@@ -29,7 +29,7 @@ export function ProductGrid({ flowers, title }: ProductGridProps) {
   return (
     <section className="mx-auto max-w-[90rem] px-4 py-12 md:px-6">
       {title && (
-        <h2 className="mb-8 font-serif text-2xl font-bold text-[#151515] dark:text-white">
+        <h2 className="mb-8 font-serif text-2xl font-bold text-foreground dark:text-white">
           {title}
         </h2>
       )}
