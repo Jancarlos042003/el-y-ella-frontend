@@ -25,7 +25,7 @@ export function useLogin() {
       api.post<AuthResponse>('/api/v1/auth/login', data).then((r) => r.data),
     onSuccess: (user) => {
       queryClient.invalidateQueries({ queryKey: ['me'] })
-      if (user.role === 'ADMIN') {
+      if (user.role === 'ROLE_ADMIN') {
         router.push(ROUTES.admin)
       } else {
         router.push(ROUTES.home)
@@ -43,7 +43,7 @@ export function useRegister() {
       api.post<AuthResponse>('/api/v1/auth/register', data).then((r) => r.data),
     onSuccess: (user) => {
       queryClient.invalidateQueries({ queryKey: ['me'] })
-      if (user.role === 'ADMIN') {
+      if (user.role === 'ROLE_ADMIN') {
         router.push(ROUTES.admin)
       } else {
         router.push(ROUTES.home)

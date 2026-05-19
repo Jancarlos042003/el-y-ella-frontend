@@ -20,7 +20,7 @@ export async function proxy(request: NextRequest) {
   if (isAdmin && token) {
     try {
       const { payload } = await jwtVerify(token, JWT_SECRET)
-      if (payload.role !== 'ADMIN') return NextResponse.redirect(new URL('/', request.url))
+      if (payload.role !== 'ROLE_ADMIN') return NextResponse.redirect(new URL('/', request.url))
     } catch {
       return NextResponse.redirect(new URL('/login', request.url))
     }

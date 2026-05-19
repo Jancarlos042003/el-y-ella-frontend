@@ -16,5 +16,5 @@ export const registerSchema = z.object({
 export const authResponseSchema = z.object({
   name: z.string(),
   email: z.string(),
-  role: z.enum(['USER', 'ADMIN']),
+  role: z.enum(['ROLE_USER', 'ROLE_ADMIN']),
 })
