@@ -15,11 +15,15 @@ import {
   FavouriteIcon,
   Home01Icon,
   GridIcon,
+  Logout01Icon,
+  ShoppingBag01Icon,
+  Settings01Icon,
 } from "@hugeicons/core-free-icons"
 
 import { ROUTES } from "@/constants/routes"
-import { useMe } from "@/hooks/useAuth"
+import { useMe, useLogout } from "@/hooks/useAuth"
 import { useSaleStore } from "@/store/saleStore"
+import { UserDropdown } from "./UserDropdown"
 
 const NAV_LINKS = [
   { label: "Rosas", href: ROUTES.catalogo("rosas") },
@@ -44,6 +48,7 @@ export function Navbar() {
   const router = useRouter()
 
   const { data: user } = useMe()
+  const logout = useLogout()
   const cartCount = useSaleStore((s) => s.cartCount)
 
   function handleSearch(e: React.FormEvent) {
@@ -139,9 +144,7 @@ export function Navbar() {
           {/* usuario — solo desktop */}
           <div className="hidden items-center md:flex">
             {user ? (
-              <span className="text-sm font-medium text-[#151515]/80 dark:text-white/80">
-                {user.name}
-              </span>
+              <UserDropdown user={user} logout={logout} />
             ) : (
               <Link
                 href={ROUTES.login}
@@ -160,7 +163,7 @@ export function Navbar() {
           {/* carrito */}
           <Link
             href={ROUTES.carrito}
-            className="relative hidden items-center gap-1.5 rounded-full bg-[#ff69b4] px-3 py-1.5 text-sm font-semibold text-white transition-colors hover:bg-[#ff69b4]/90 lg:flex"
+            className="relative hidden items-center gap-1.5 rounded-full border border-[#ff69b4]/15 bg-[#ff69b4]/10 px-3 py-1.5 text-sm font-semibold text-[#ff69b4] transition-all duration-200 hover:border-[#ff69b4]/25 hover:bg-[#ff69b4]/25 hover:text-white lg:flex"
           >
             <HugeiconsIcon
               icon={ShoppingCart01Icon}
@@ -268,9 +271,23 @@ export function Navbar() {
               <hr className="my-3 border-black/10 dark:border-white/10" />
 
               {user ? (
-                <p className="px-4 py-2 text-base text-[#151515]/60 dark:text-white/60">
-                  Hola, {user.name} 👋
-                </p>
+                <div className="flex flex-col gap-1">
+                  <p className="px-4 py-2 text-base text-[#151515]/60 dark:text-white/60">
+                    Hola, {user.name} 👋
+                  </p>
+                  <button
+                    onClick={() => logout.mutate()}
+                    disabled={logout.isPending}
+                    className="flex items-center gap-2 rounded-2xl px-4 py-3 text-lg font-medium text-red-500 transition-colors hover:bg-red-50 disabled:opacity-50 dark:hover:bg-red-950/20"
+                  >
+                    <HugeiconsIcon
+                      icon={Logout01Icon}
+                      className="size-5"
+                      strokeWidth={1.5}
+                    />
+                    {logout.isPending ? "Cerrando sesión..." : "Cerrar sesión"}
+                  </button>
+                </div>
               ) : (
                 <Link
                   href={ROUTES.login}
