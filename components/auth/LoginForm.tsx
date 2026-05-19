@@ -18,6 +18,7 @@ import { loginSchema } from '@/schemas/auth.schemas'
 import type { LoginInput } from '@/types/auth.types'
 import { useLogin } from '@/hooks/useAuth'
 import { ROUTES } from '@/constants/routes'
+import { cn } from '@/lib/utils'
 
 export function LoginForm() {
   const [showPassword, setShowPassword] = useState(false)
@@ -49,6 +50,14 @@ export function LoginForm() {
     })
   }
 
+  const inputClass = cn(
+    "rounded-xl border border-border bg-white/70 px-4 py-3 text-sm outline-none transition-luxury",
+    "placeholder:text-foreground/40 focus:border-primary",
+    "dark:bg-white/5 dark:text-white dark:placeholder:text-white/40 dark:focus:border-primary"
+  )
+
+  const labelClass = "text-sm font-medium text-foreground/80 dark:text-white/80"
+
   return (
     <section className="relative flex min-h-[calc(100svh-5.5rem)] items-center justify-center overflow-hidden py-8">
       {/* fondo floral */}
@@ -60,28 +69,28 @@ export function LoginForm() {
         className="object-cover object-center"
         sizes="100vw"
       />
-      <div className="absolute inset-0 bg-[#f9f5f0]/65 backdrop-blur-sm dark:bg-[#1a0a0f]/75" />
+      <div className="absolute inset-0 bg-background/65 backdrop-blur-sm dark:bg-background/75" />
 
       {/* glass card */}
       <div className="relative z-10 w-full max-w-md px-4">
-        <div className="flex flex-col gap-6 rounded-[2rem] border border-white/45 bg-white/80 p-8 shadow-[0_8px_32px_rgba(0,0,0,0.10)] backdrop-blur-[16px] dark:border-[#ff69b4]/15 dark:bg-[#1a0a0f]/80">
+        <div className="flex flex-col gap-6 rounded-[2rem] glass p-8 shadow-floating">
           {/* logo */}
           <div className="flex flex-col items-center gap-2 text-center">
-            <div className="flex size-12 items-center justify-center rounded-full bg-[#ff69b4]/15">
+            <div className="flex size-12 items-center justify-center rounded-full bg-primary/15">
               <HugeiconsIcon
                 icon={FlowerIcon}
-                className="size-6 text-[#ff69b4]"
+                className="size-6 text-primary"
                 strokeWidth={1.5}
               />
             </div>
-            <h1 className="font-serif text-2xl font-bold text-[#151515] dark:text-white">
+            <h1 className="font-serif text-2xl font-bold text-foreground dark:text-white">
               Iniciar sesión
             </h1>
-            <p className="text-sm text-[#151515]/60 dark:text-white/60">
+            <p className="text-sm text-foreground/60 dark:text-white/60">
               ¿No tienes cuenta?{' '}
               <Link
                 href={ROUTES.register}
-                className="font-semibold text-[#ff69b4] hover:underline"
+                className="font-semibold text-primary hover:underline"
               >
                 Regístrate
               </Link>
@@ -92,7 +101,7 @@ export function LoginForm() {
           <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4" noValidate>
             {/* email */}
             <div className="flex flex-col gap-1.5">
-              <label className="text-sm font-medium text-[#151515]/80 dark:text-white/80">
+              <label className={labelClass}>
                 Email
               </label>
               <input
@@ -100,16 +109,16 @@ export function LoginForm() {
                 autoComplete="email"
                 placeholder="tu@correo.com"
                 {...register('email')}
-                className="rounded-xl border border-black/10 bg-white/70 px-4 py-3 text-sm outline-none placeholder:text-[#151515]/40 transition-colors focus:border-[#ff69b4] dark:border-white/10 dark:bg-white/5 dark:text-white dark:placeholder:text-white/40 dark:focus:border-[#ff69b4]"
+                className={inputClass}
               />
               {errors.email && (
-                <p className="text-xs text-red-500">{errors.email.message}</p>
+                <p className="text-xs text-destructive">{errors.email.message}</p>
               )}
             </div>
 
             {/* contraseña */}
             <div className="flex flex-col gap-1.5">
-              <label className="text-sm font-medium text-[#151515]/80 dark:text-white/80">
+              <label className={labelClass}>
                 Contraseña
               </label>
               <div className="relative">
@@ -118,12 +127,12 @@ export function LoginForm() {
                   autoComplete="current-password"
                   placeholder="••••••••"
                   {...register('password')}
-                  className="w-full rounded-xl border border-black/10 bg-white/70 px-4 py-3 pr-11 text-sm outline-none placeholder:text-[#151515]/40 transition-colors focus:border-[#ff69b4] dark:border-white/10 dark:bg-white/5 dark:text-white dark:placeholder:text-white/40 dark:focus:border-[#ff69b4]"
+                  className={cn(inputClass, "w-full pr-11")}
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword((v) => !v)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-[#151515]/40 hover:text-[#ff69b4] dark:text-white/40"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-foreground/40 hover:text-primary dark:text-white/40"
                   aria-label={showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'}
                 >
                   <HugeiconsIcon
@@ -134,7 +143,7 @@ export function LoginForm() {
                 </button>
               </div>
               {errors.password && (
-                <p className="text-xs text-red-500">{errors.password.message}</p>
+                <p className="text-xs text-destructive">{errors.password.message}</p>
               )}
             </div>
 
@@ -142,7 +151,7 @@ export function LoginForm() {
             <button
               type="submit"
               disabled={isPending}
-              className="mt-1 flex items-center justify-center gap-2 rounded-full bg-[#ff69b4] py-3 text-sm font-semibold text-white transition-colors hover:bg-[#ff69b4]/90 disabled:opacity-60"
+              className="mt-1 flex items-center justify-center gap-2 rounded-full bg-primary py-3 text-sm font-semibold text-white transition-luxury hover:bg-primary-dark disabled:opacity-60"
             >
               {isPending ? (
                 <HugeiconsIcon icon={Loading03Icon} className="size-4 animate-spin" strokeWidth={1.5} />
