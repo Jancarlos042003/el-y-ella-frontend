@@ -16,6 +16,7 @@ import type { FlowerResponse } from '@/types/flores.types'
 import { useAddToCart } from '@/hooks/useCarrito'
 import { useMe } from '@/hooks/useAuth'
 import { ROUTES } from '@/constants/routes'
+import { cn } from '@/lib/utils'
 
 interface ProductDetailProps {
   flower: FlowerResponse
@@ -47,13 +48,13 @@ export function ProductDetail({ flower }: ProductDetailProps) {
     <div className="mx-auto max-w-[90rem] px-4 py-10 md:px-6">
       <div className="grid gap-10 lg:grid-cols-2">
         {/* imagen */}
-        <div className="relative aspect-square overflow-hidden rounded-[2rem] bg-[#f9f5f0] dark:bg-[#1a0a0f]">
+        <div className="relative aspect-square overflow-hidden rounded-[2rem] bg-background">
           <Image
             src={flower.imageUrl}
             alt={flower.name}
             fill
             priority
-            className="object-cover"
+            className="object-cover transition-luxury"
             sizes="(max-width: 1024px) 100vw, 50vw"
           />
         </div>
@@ -65,14 +66,14 @@ export function ProductDetail({ flower }: ProductDetailProps) {
             {flower.categories.map((cat) => (
               <span
                 key={cat.id}
-                className="rounded-full border border-[#ff69b4]/30 bg-[#ff69b4]/10 px-3 py-1 text-xs font-semibold text-[#ff69b4]"
+                className="rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-semibold text-primary backdrop-blur-sm"
               >
                 {cat.name}
               </span>
             ))}
           </div>
 
-          <h1 className="font-serif text-3xl font-bold text-[#151515] dark:text-white md:text-4xl">
+          <h1 className="font-serif text-3xl font-bold text-foreground dark:text-white md:text-4xl">
             {flower.name}
           </h1>
 
@@ -83,18 +84,21 @@ export function ProductDetail({ flower }: ProductDetailProps) {
                 <HugeiconsIcon
                   key={i}
                   icon={StarIcon}
-                  className={`size-4 ${i < Math.round(rating) ? 'text-amber-400' : 'text-gray-300 dark:text-white/20'}`}
+                  className={cn(
+                    "size-4 transition-luxury",
+                    i < Math.round(rating) ? 'text-amber-400 fill-amber-400' : 'text-foreground/20 dark:text-white/20'
+                  )}
                   strokeWidth={1.5}
                 />
               ))}
             </div>
-            <span className="text-sm text-[#151515]/60 dark:text-white/60">
+            <span className="text-sm text-foreground/60 dark:text-white/60">
               {rating.toFixed(1)} ({reviewCount} reseña{reviewCount !== 1 ? 's' : ''})
             </span>
           </div>
 
           {/* precio */}
-          <p className="font-serif text-4xl font-bold text-[#ff69b4]">
+          <p className="font-serif text-4xl font-bold text-primary">
             {new Intl.NumberFormat('es-PE', {
               style: 'currency',
               currency: 'PEN',
@@ -102,24 +106,24 @@ export function ProductDetail({ flower }: ProductDetailProps) {
           </p>
 
           {/* descripción */}
-          <p className="leading-relaxed text-[#151515]/70 dark:text-white/70">
+          <p className="leading-relaxed text-foreground/70 dark:text-white/70">
             {flower.description}
           </p>
 
           {/* stock */}
           {flower.stock !== undefined && (
-            <p className="text-sm text-[#151515]/50 dark:text-white/50">
+            <p className="text-sm text-foreground/50 dark:text-white/50">
               {flower.stock > 0 ? `${flower.stock} disponibles` : 'Sin stock'}
             </p>
           )}
 
           {/* cantidad + botón */}
           <div className="flex flex-wrap items-center gap-4">
-            <div className="flex items-center gap-2 rounded-full border border-black/10 dark:border-white/10">
+            <div className="flex items-center gap-2 rounded-full border border-border bg-white/50 dark:bg-white/5">
               <button
                 type="button"
                 onClick={() => setQuantity((q) => Math.max(1, q - 1))}
-                className="flex size-10 items-center justify-center rounded-full hover:bg-black/5 dark:hover:bg-white/10"
+                className="flex size-10 items-center justify-center rounded-full hover:bg-foreground/5 transition-luxury"
                 aria-label="Reducir cantidad"
               >
                 <HugeiconsIcon icon={MinusSignIcon} className="size-4" strokeWidth={1.5} />
@@ -128,7 +132,7 @@ export function ProductDetail({ flower }: ProductDetailProps) {
               <button
                 type="button"
                 onClick={() => setQuantity((q) => Math.min(flower.stock ?? 99, q + 1))}
-                className="flex size-10 items-center justify-center rounded-full hover:bg-black/5 dark:hover:bg-white/10"
+                className="flex size-10 items-center justify-center rounded-full hover:bg-foreground/5 transition-luxury"
                 aria-label="Aumentar cantidad"
               >
                 <HugeiconsIcon icon={Add01Icon} className="size-4" strokeWidth={1.5} />
@@ -139,7 +143,7 @@ export function ProductDetail({ flower }: ProductDetailProps) {
               type="button"
               onClick={handleAddToCart}
               disabled={isPending || flower.stock === 0}
-              className="flex flex-1 items-center justify-center gap-2 rounded-full bg-[#ff69b4] px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-[#ff69b4]/90 disabled:opacity-60"
+              className="flex flex-1 items-center justify-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-semibold text-white transition-luxury hover:bg-primary-dark disabled:opacity-60"
             >
               {isPending ? (
                 <HugeiconsIcon icon={Loading03Icon} className="size-4 animate-spin" strokeWidth={1.5} />
