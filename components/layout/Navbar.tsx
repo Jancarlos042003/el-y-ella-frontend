@@ -16,6 +16,7 @@ import {
 import { ROUTES } from "@/constants/routes"
 import { useMe, useLogout } from "@/hooks/useAuth"
 import { useSaleStore } from "@/store/saleStore"
+import { useCarrito } from "@/hooks/useCarrito"
 import { cn } from "@/lib/utils"
 
 // Sub-componentes
@@ -23,6 +24,7 @@ import { UserDropdown } from "./UserDropdown"
 import { NavbarSearch } from "./parts/NavbarSearch"
 import { NavbarMobileMenu } from "./parts/NavbarMobileMenu"
 import { NavbarBottomNav } from "./parts/NavbarBottomNav"
+import { CartDrawer } from "../cart/CartDrawer"
 
 const NAV_LINKS = [
   { label: "Rosas", href: ROUTES.catalogo("rosas") },
@@ -38,14 +40,23 @@ export function Navbar() {
   const [scrolled, setScrolled] = useState(false)
 
   const { data: user } = useMe()
+  const { data: cart = [] } = useCarrito()
   const logout = useLogout()
   const cartCount = useSaleStore((s) => s.cartCount)
+  const setCartCount = useSaleStore((s) => s.setCartCount)
+  const setIsCartOpen = useSaleStore((s) => s.setIsCartOpen)
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 80)
     window.addEventListener("scroll", handleScroll)
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
+
+  useEffect(() => {
+    if (cart) {
+      setCartCount(cart.length)
+    }
+  }, [cart, setCartCount])
 
   return (
     <>
@@ -138,8 +149,8 @@ export function Navbar() {
           </div>
 
           {/* carrito */}
-          <Link
-            href={ROUTES.carrito}
+          <button
+            onClick={() => setIsCartOpen(true)}
             className="transition-luxury relative hidden items-center gap-1.5 rounded-full border border-primary/15 bg-primary/10 px-3 py-1.5 text-sm font-semibold text-primary hover:border-primary/25 hover:bg-primary/25 lg:flex"
           >
             <HugeiconsIcon
@@ -153,7 +164,7 @@ export function Navbar() {
                 {cartCount}
               </span>
             )}
-          </Link>
+          </button>
 
           {/* hamburguesa — solo mobile/tablet */}
           <button
@@ -199,6 +210,9 @@ export function Navbar() {
 
       {/* nav inferior mobile */}
       <NavbarBottomNav />
+
+      {/* Carrito lateral */}
+      <CartDrawer />
     </>
   )
 }

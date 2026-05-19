@@ -31,18 +31,15 @@ export function ProductDetail({ flower }: ProductDetailProps) {
   const reviewCount = flower.reviewCount ?? 0
 
   function handleAddToCart() {
-    if (!me) {
-      window.location.href = ROUTES.login
-      return
-    }
     addToCart(
-      { flowerId: flower.id, quantity },
+      { flowerId: flower.id, quantity, flower },
       {
         onSuccess: () => toast.success('Añadido al carrito'),
         onError: () => toast.error('No se pudo añadir al carrito. Inténtalo de nuevo.'),
-      },
+      }
     )
   }
+
 
   return (
     <div className="mx-auto max-w-[90rem] px-4 py-10 md:px-6">
