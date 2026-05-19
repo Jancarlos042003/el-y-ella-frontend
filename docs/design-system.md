@@ -2,77 +2,200 @@
 
 ## Concepto visual
 
-**Apple-inspired UI + glassmorphism moderado.** Premium, elegante, minimalista.
-Transmite: delicadeza · romanticismo · exclusividad · calma visual · lujo sutil.
-Referencia estética: Apple Store, Shopify premium themes, campañas editoriales de flores luxury.
+### Dirección oficial de marca
+
+**Editorial floral luxury + calm luxury UI**
+
+La experiencia visual debe sentirse:
+- elegante
+- emocional
+- premium
+- aireada
+- romántica
+- sofisticada
+- silenciosa visualmente
+
+Inspiraciones:
+- campañas editoriales de flores luxury
+- boutiques premium
+- Apple-inspired minimalism cálido
+- Shopify premium floral themes
+- fotografía lifestyle floral editorial
+
+La interfaz debe priorizar:
+1. Espacio negativo
+2. Contraste suave
+3. Transparencias
+4. Profundidad sutil
+5. Jerarquía por opacidad, no por saturación
+
+Nunca:
+- ecommerce agresivo
+- dashboard SaaS
+- UI saturada
+- exceso de sombras
+- colores extremadamente vibrantes
+- demasiados elementos compitiendo
 
 ---
 
-## Paleta de colores
+# Principios visuales
 
-```css
---color-primary:    #ff69b4;   /* Rosa — CTAs, badges, iconos destacados, estados activos */
---color-background: #f9f5f0;   /* Fondo general — crema cálido, potencia el glassmorphism */
---color-dark:       #151515;   /* Títulos, jerarquía tipográfica, navegación */
-```
+## Filosofía del sistema
 
-### Dark mode
-```css
---color-dark-bg:      #1a0a0f;   /* Fondo oscuro cálido */
---color-dark-surface: #2a1520;   /* Superficie de cards */
---color-dark-glow:    #ff69b4;   /* Glow rosado suave en acentos */
-```
+La UI debe sentirse:
+- ligera
+- flotante
+- refinada
+- atmosférica
+- calmada
+- táctil
+- premium
+
+La experiencia visual debe parecer:
+- una boutique editorial
+- una campaña visual
+- una experiencia emocional
+
+No:
+- una app técnica
+- un marketplace
+- un dashboard administrativo
 
 ---
 
-## Tipografía
+# Paleta de colores
 
-Mezcla deliberada de dos familias — no intercambiar sus roles:
+```css
+--color-primary:    #f472b6;
+--color-background: #f9f5f0;
+--color-dark:       #151515;
+```
 
-| Rol | Familia | Dónde |
+## Uso del color primary
+
+El rosa principal NO debe dominar toda la interfaz.
+
+### El rosa sólido se reserva para:
+- CTA principal
+- estados activos prioritarios
+- highlights importantes
+- acciones emocionales clave
+
+### El rosa translúcido se usa para:
+- hover states
+- pills
+- bordes
+- superficies suaves
+- íconos
+- glass accents
+
+### Intensidades aprobadas
+
+| Uso | Opacidad |
+|---|---|
+| Hover suave | 5%–10% |
+| Surface accent | 8%–12% |
+| Border accent | 12%–18% |
+| Glow | 10%–15% |
+| CTA principal | sólido |
+
+Evitar:
+- múltiples botones sólidos rosas
+- hover extremadamente saturados
+- texto blanco sobre fondos translúcidos
+
+---
+
+# Dark mode — Velvet Luxury
+
+```css
+--color-dark-bg:      #1a0a0f;
+--color-dark-surface: #2a1520;
+--color-dark-glow:    #f472b6;
+```
+
+## Filosofía dark mode
+
+El dark mode debe sentirse:
+- cálido
+- elegante
+- romántico
+- cinematográfico
+- velvet luxury
+
+Nunca:
+- gris corporativo
+- negro puro
+- alto contraste agresivo
+
+---
+
+# Tipografía
+
+## Sistema tipográfico
+
+| Rol | Familia | Uso |
 |---|---|---|
-| **Serif elegante** | Playfair Display (o similar) | Hero title, headings de sección, nombre del producto en cards |
-| **Sans-serif minimalista** | Poppins | Navegación, descripciones, precios, botones, labels, body text |
+| Serif elegante | Playfair Display | Hero titles, product names, section headings |
+| Sans-serif minimalista | Poppins | Navegación, body text, botones, precios, labels |
 
-### Patrón de heading dos tonos (hero)
-```
-Flores elegantes para          ← dark (#151515), serif
-momentos especiales            ← primary (#ff69b4), serif
-```
-La segunda línea del heading principal siempre en rosa.
+### Regla crítica
 
-### Escala base
+NO intercambiar roles entre serif y sans-serif.
+
+---
+
+## Patrón hero heading
+
+```txt
+Flores elegantes para
+momentos especiales
+```
+
+- Primera línea → dark
+- Segunda línea → primary
+- Ambas líneas → serif
+
+---
+
+## Escala base
+
 ```css
-font-size: 62.5%;   /* :root → 1rem = 10px, fidelidad con el diseño original */
+font-size: 62.5%;
 ```
 
 ---
 
-## Breakpoints
+# Breakpoints
 
 ```ts
-sm: '468px'    // mobile
-md: '768px'    // tablet
-lg: '1024px'   // desktop
+sm: '468px'
+md: '768px'
+lg: '1024px'
 ```
 
 ---
 
-## Glassmorphism
+# Glassmorphism
 
-### Dónde aplicar
+## Filosofía
 
-| Elemento | Aplica | Notas |
-|---|---|---|
-| **Navbar** | ✅ | Flotante sobre hero; ver regla scroll-aware abajo |
-| **Hero card** | ✅ | Panel izquierdo del hero |
-| **Product cards** | ✅ | Sutil — sombra suave + fondo translúcido |
-| **Testimonios** | ✅ | Cards de clientes |
-| **Newsletter** | ✅ | Bloque de suscripción |
-| **Login / Register / Pago** | ✅ | Páginas con imagen de fondo floral |
-| Header sólido (scroll down) | ❌ | Solo cuando el navbar ya salió del hero |
+Glassmorphism:
+- sutil
+- editorial
+- suave
+- atmosférico
 
-### Implementación base
+Nunca:
+- exagerado
+- ultra blur
+- demasiado transparente
+- estilo SaaS futurista
+
+---
+
+## Clase base
 
 ```css
 .glass {
@@ -83,194 +206,555 @@ lg: '1024px'   // desktop
   box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
 }
 
-/* Fallback para navegadores sin backdrop-filter */
 @supports not (backdrop-filter: blur(12px)) {
-  .glass { background: rgba(255, 255, 255, 0.92); }
+  .glass {
+    background: rgba(255,255,255,0.92);
+  }
 }
 
-/* Dark mode */
 .dark .glass {
-  background: rgba(26, 10, 15, 0.72);
-  border-color: rgba(255, 105, 180, 0.15);
+  background: rgba(26,10,15,0.72);
+  border-color: rgba(244,114,182,0.15);
 }
 ```
 
-### Intensidades por componente
+---
+
+## Intensidades
 
 | Componente | Background opacity | Blur |
 |---|---|---|
 | Navbar | 0.80 | 16px |
 | Hero card | 0.72 | 12px |
 | Product card | 0.60 | 8px |
-| Testimonio | 0.65 | 10px |
+| Testimonios | 0.65 | 10px |
 | Newsletter | 0.70 | 12px |
 
 ---
 
-## Navbar
+# Sistema de sombras
 
-### Comportamiento scroll-aware (desktop)
+## Filosofía
 
-```
-Posición inicial (sobre hero):
-  → position: fixed, glass effect completo, sin fondo sólido
+Las sombras deben ser:
+- amplias
+- suaves
+- difusas
+- casi invisibles
 
-Después de scroll > 80px (salió del hero):
-  → background: rgba(255,255,255,0.95), sombra más pronunciada
-  → transición suave 300ms
-```
-
-### Estructura visual
-
-```
-[Logo + tagline]  [Categorías ▾] [Rosas] [Tulipanes] [Girasoles] [Bouquets] [Ocasiones] [Ofertas 🔴Nuevo]  ··  [🔍 Buscar flores, bouquets...]  [👤 Iniciar sesión]  [🛒 Carrito (3)]
-```
-
-- **Logo**: Ícono floral + "El y ella" serif + subtítulo "FLORES QUE CUENTAN HISTORIAS" sans pequeño
-- **Carrito**: Botón rosa primario con badge de contador
-- **Iniciar sesión**: Solo icono + texto, sin fondo
-- **Bordes**: `border-radius: 1.6rem` cuando está sobre hero; `border-radius: 0` cuando está sticky sólido
-
-### Mobile navbar
-Bottom navigation fijo, estilo iOS:
-```
-[🏠 Inicio] [⊞ Categorías] [♡ Favoritos] [🛒 Carrito] [👤 Cuenta]
-```
-- Fondo: glass oscuro rosado en dark mode / glass claro en light
-- Ícono activo: color primary `#ff69b4`
+Nunca:
+- oscuras
+- compactas
+- agresivas
 
 ---
 
-## Hero
+## Sombras aprobadas
 
-### Layout desktop (2 columnas)
+```css
+shadow-soft:
+0 4px 24px rgba(0,0,0,0.06)
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│  [45%] Glass card izquierda    │  [55%] Imagen floral hero      │
-│                                │                                 │
-│  ⭐ ENVÍO EL MISMO DÍA         │   (bouquet rosas en jarrón      │
-│                                │    cristal, pétalos, mármol,   │
-│  Flores elegantes para         │    tela rosada, fondo pastel)  │
-│  momentos especiales           │                                 │
-│  ————                          │                    ▶ Descubre  │
-│  Bouquets premium elaborados   │              cómo creamos tu   │
-│  con flores frescas y          │                     bouquet    │
-│  entregas que enamoran.        │                                 │
-│                                │    ← ● ○ ○ →                   │
-│  [Comprar ahora →] [Ver colec.]│                                 │
-│                                │                                 │
-│  🚚 Envíos  🔒 Pago  🌸 Flores │                                 │
-│  a todo el país  seguro  frescas│                                │
-└─────────────────────────────────────────────────────────────────┘
+shadow-floating:
+0 10px 40px rgba(244,114,182,0.08)
 ```
 
-### Glass card del hero
-- `border-radius: 2rem`
-- Badge superior: pill pequeño con ⭐ + texto uppercase pequeño
-- Heading: serif, dos tonos (dark + primary en segunda línea)
-- Separador: línea horizontal rosa debajo del heading
-- CTAs: botón primario rosa filled + botón secundario outlined oscuro
-- Trust badges: fila de 3 iconos + texto pequeño
-
-### Imagen hero
-- Fondo: `/public/images/hero-bg.jpg` (imagen del jarrón con rosas, pétalos, tela rosada)
-- `object-fit: cover`, posición derecha
-- Superposición de slides con navegación (dots + flechas laterales)
+Evitar:
+```css
+shadow-lg
+shadow-xl
+shadow-black/20
+```
 
 ---
 
-## Product Card
+# Sistema de botones
 
-Anatomía (imagen de referencia #3):
-
-```
-┌─────────────────────────────────────┐
-│ [Más vendido 🏷]          [♡]       │  ← badge + favorito
-│                                     │
-│         [imagen floral]             │  ← 60% altura de la card
-│       fondo suave integrado         │
-│                                     │
-├─────────────────────────────────────┤
-│ Bouquet Rosas Premium               │  ← serif bold
-│ ⭐ 4.9 (128)              $59.990   │  ← rating + precio en misma fila
-│                                     │
-│ [🛒 Agregar al carrito         →]   │  ← CTA outlined
-└─────────────────────────────────────┘
-```
-
-- `border-radius: 1.6rem`
-- Sombra: `box-shadow: 0 2px 16px rgba(0,0,0,0.07)`
-- Badge: pill rosa, posición `absolute` top-left
-- Favorito: círculo outline, posición `absolute` top-right
-- Nombre: `font-family: serif`, `font-weight: 700`
-- Precio: tipografía grande, alineado a la derecha
-- CTA: `border: 1.5px solid #ff69b4`, texto + ícono carrito + flecha derecha
+Solo existen 3 categorías de botones.
 
 ---
 
-## Categorías
+## 1. Primary CTA
 
-Cards horizontales minimalistas en fila:
+Uso:
+- acción principal de la pantalla
 
+Ejemplos:
+- Comprar ahora
+- Finalizar compra
+- Confirmar pedido
+
+### Estilo
+
+```css
+background: #f472b6;
+color: white;
+border-radius: 9999px;
 ```
-[img] Rosas          [img] Tulipanes      [img] Girasoles      [img] Bouquets
-      Ver colección →       Ver colección →      Ver colección →      Ver colección →
+
+### Hover
+
+```css
+background: #ec4899;
 ```
 
-- Fondo: blanco / glass muy sutil
-- Borde: `1px solid rgba(0,0,0,0.06)`
-- `border-radius: 1.2rem`
-- Imagen circular o cuadrada redondeada a la izquierda
+### Reglas
+
+- máximo 1 CTA dominante por viewport
+- usar con moderación
+- prioridad visual alta
 
 ---
 
-## Testimonios
+## 2. Soft Action Button
 
-Cards con:
-- Comillas decorativas grandes en primary
-- Texto del comentario
-- Avatar circular + nombre + estrellas
-- Fondo: glass sutil
+Uso:
+- carrito
+- filtros
+- pills interactivas
+- acciones secundarias importantes
+
+### Estilo
+
+```css
+background: rgba(244,114,182,0.10);
+border: 1px solid rgba(244,114,182,0.15);
+color: #f472b6;
+```
+
+### Hover
+
+```css
+background: rgba(244,114,182,0.15);
+border-color: rgba(244,114,182,0.25);
+```
+
+### Reglas
+
+- NO usar texto blanco
+- mantener apariencia translúcida
+- hover incremental, nunca agresivo
 
 ---
 
-## Newsletter
+## 3. Ghost Luxury Button
 
-Bloque glass full-width:
-- Icono envelope primary
-- Título + subtítulo
-- Input + botón CTA en la misma fila
+Uso:
+- navegación
+- dropdown items
+- acciones terciarias
+
+### Estilo
+
+```css
+background: transparent;
+color: rgba(21,21,21,0.72);
+```
+
+### Hover
+
+```css
+background: rgba(244,114,182,0.05);
+color: #f472b6;
+```
+
+### Reglas
+
+- prioridad visual mínima
+- sin sombras
+- interacción sutil
 
 ---
 
-## Animaciones
+# Hover & Motion Language
 
-| Herramienta | Cuándo usar |
+## Filosofía
+
+La interacción debe sentirse:
+- refinada
+- suave
+- orgánica
+- atmosférica
+
+Nunca:
+- explosiva
+- elástica
+- exagerada
+- demasiado técnica
+
+---
+
+## Reglas de hover
+
+Incorrecto:
+- translúcido → sólido
+- hover muy saturado
+- texto blanco sobre hover suave
+- sombras fuertes
+- escalas exageradas
+
+Correcto:
+- incrementos leves de opacidad
+- profundidad sutil
+- microtransiciones suaves
+
+---
+
+## Duraciones
+
+| Tipo | Duración |
 |---|---|
-| `tw-animate-css` | Fade-in de secciones, spin de loaders, hover en cards (escala/sombra) |
-| `motion` | Navbar scroll-aware transition, menú mobile slide, AnimatePresence en carrito, stagger en product grid |
+| Hover | 150ms–220ms |
+| Navbar scroll | 300ms |
+| Dropdown | 180ms |
+| Modal | 250ms |
 
-Consultar **MCP de motion** antes de implementar cualquier animación con la librería.
+### Timing
+
+```css
+ease-out
+```
+
+Evitar:
+```css
+bounce
+spring exagerado
+ease-in-out excesivo
+```
 
 ---
 
-## shadcn — Componentes aprobados
+# Navbar
 
-Usar shadcn **solo** para preservar la identidad visual premium en elementos funcionales:
+## Filosofía
 
-| Componente | Dónde |
+El navbar debe sentirse:
+- flotante
+- ligero
+- integrado con el hero
+- premium
+
+Nunca:
+- pesado
+- dominante
+- demasiado sólido
+- saturado
+
+---
+
+## Scroll-aware behavior
+
+### Estado inicial
+
+```txt
+position: fixed
+glass completo
+sin fondo sólido
+```
+
+### Después de scroll > 80px
+
+```txt
+background: rgba(255,255,255,0.95)
+sombra suave
+transición 300ms
+```
+
+---
+
+## Reglas visuales
+
+- Priorizar transparencias
+- Evitar múltiples elementos rosa sólido
+- Hover states suaves
+- El carrito NO debe competir con el CTA del hero
+- El navbar debe “desaparecer” visualmente sobre el hero
+
+---
+
+## Carrito
+
+Usa estilo:
+- Soft Action Button
+
+```css
+background: rgba(244,114,182,0.10);
+border: 1px solid rgba(244,114,182,0.15);
+color: #f472b6;
+```
+
+Hover:
+```css
+background: rgba(244,114,182,0.15);
+border-color: rgba(244,114,182,0.25);
+```
+
+NO usar:
+- fondo rosa sólido
+- texto blanco
+- hover agresivo
+
+---
+
+## Badge "Nuevo"
+
+```css
+background: rgba(244,114,182,0.10);
+border: 1px solid rgba(244,114,182,0.15);
+color: #f472b6;
+```
+
+Nunca usar:
+- rojo ecommerce
+- badges agresivos
+
+---
+
+# Dropdowns
+
+## Filosofía
+
+Los dropdowns deben sentirse:
+- cristal flotante
+- superficie premium
+- calm luxury
+
+Nunca:
+- panel admin
+- menú técnico
+- componente Radix default
+
+---
+
+## Estilo base
+
+```css
+background: rgba(255,255,255,0.78);
+backdrop-filter: blur(18px);
+border: 1px solid rgba(255,255,255,0.22);
+box-shadow: 0 10px 40px rgba(244,114,182,0.08);
+border-radius: 1.6rem;
+```
+
+Dark mode:
+```css
+background: rgba(26,10,15,0.78);
+border-color: rgba(244,114,182,0.12);
+```
+
+---
+
+# Hero
+
+## Filosofía
+
+El hero debe sentirse:
+- editorial
+- emocional
+- premium
+- cinematográfico
+
+La fotografía debe ser:
+- semi lifestyle cálida
+- romántica
+- natural
+- suave
+
+Nunca:
+- fotografía de catálogo técnico
+- imágenes muy saturadas
+- stock photography evidente
+
+---
+
+## Glass card
+
+- border-radius: 2rem
+- profundidad suave
+- contraste ligero
+- mucho espacio negativo
+
+---
+
+## CTAs del hero
+
+- CTA principal → filled pink
+- CTA secundario → outlined luxury
+
+Nunca:
+- múltiples botones filled
+- CTAs agresivos
+
+---
+
+# Product Cards
+
+## Filosofía visual
+
+Las product cards deben sentirse:
+- editoriales
+- boutique premium
+- vitrinas emocionales
+- lujo silencioso
+
+Nunca:
+- marketplace
+- ecommerce agresivo
+- catálogo saturado
+
+---
+
+## Reglas
+
+- Priorizar fotografía emocional
+- Evitar exceso de elementos UI
+- Mucho espacio negativo
+- Profundidad suave
+- CTA integrado y silencioso
+
+---
+
+## Anatomía
+
+- Fondo velvet luxury
+- Imagen dominante
+- Serif elegante en título
+- CTA outlined calm luxury
+- Badge sutil
+- Favorito glass
+
+---
+
+## CTA recomendado
+
+```css
+border: 1px solid rgba(244,114,182,0.35);
+background: rgba(244,114,182,0.04);
+color: rgba(255,255,255,0.88);
+```
+
+Hover:
+```css
+background: rgba(244,114,182,0.08);
+border-color: rgba(244,114,182,0.45);
+```
+
+---
+
+# Categorías
+
+## Filosofía
+
+Minimalismo editorial.
+
+Las categorías deben sentirse:
+- ligeras
+- premium
+- táctiles
+- limpias
+
+---
+
+## Estilo
+
+- glass muy sutil
+- border suave
+- imágenes cálidas
+- spacing amplio
+
+---
+
+# Testimonios
+
+## Filosofía
+
+Los testimonios deben sentirse:
+- íntimos
+- humanos
+- elegantes
+
+Nunca:
+- tarjetas corporativas
+- demasiado UI-heavy
+
+---
+
+# Newsletter
+
+## Filosofía
+
+El newsletter debe parecer:
+- una invitación premium
+- no un popup de marketing
+
+---
+
+# Motion
+
+## Filosofía
+
+Motion:
+- casi invisible
+- elegante
+- refinado
+
+---
+
+## Aprobado
+
+- fade
+- micro movement
+- stagger sutil
+- navbar transitions suaves
+
+---
+
+## Evitar
+
+- bounce
+- parallax exagerado
+- motion agresivo
+- floating excesivo
+
+---
+
+# shadcn
+
+## Permitido
+
+| Componente | Uso |
 |---|---|
-| `Dialog`, `AlertDialog` | Confirmaciones en admin |
-| `Table` | Tablas CRUD en admin |
-| `Select` | Selectores de categoría y estado en admin |
-| `Input`, `Button` | Formularios del admin |
-| `Sonner` | Toasts globales |
+| Dialog | Confirmaciones admin |
+| Table | CRUD admin |
+| Select | Admin |
+| Input | Formularios admin |
+| Button | Admin |
+| Sonner | Toasts |
 
-**No usar shadcn** en: Navbar, Hero, ProductCard, CategoryCard, Testimonios, Newsletter, Footer, Login, Register, Pago — todos son componentes custom.
+---
 
-### Configuración shadcn
+## No usar shadcn para
+
+- Navbar
+- Hero
+- ProductCard
+- CategoryCard
+- Newsletter
+- Footer
+- Login
+- Register
+- Checkout
+
+Todos deben ser custom.
+
+---
+
+# Configuración shadcn
+
 ```json
-{ "style": "radix-maia", "iconLibrary": "hugeicons", "rsc": true }
+{
+  "style": "radix-maia",
+  "iconLibrary": "hugeicons",
+  "rsc": true
+}
 ```
-Aliases: `@/components`, `@/components/ui`, `@/lib`, `@/lib/utils`, `@/hooks`
