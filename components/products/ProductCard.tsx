@@ -8,6 +8,8 @@ import { StarIcon } from '@hugeicons/core-free-icons'
 import { ROUTES } from '@/constants/routes'
 import type { FlowerResponse } from '@/types/flores.types'
 import { cn } from '@/lib/utils'
+import { useAddToCartAction } from '@/hooks/useCarrito'
+import { Loading03Icon } from '@hugeicons/core-free-icons'
 
 // Sub-componentes
 import { ProductCardBadge } from './parts/ProductCardBadge'
@@ -20,6 +22,8 @@ interface ProductCardProps {
 }
 
 export function ProductCard({ flower, badge }: ProductCardProps) {
+  const { handleAddToCart, isPending } = useAddToCartAction()
+
   return (
     <article className="group relative flex flex-col overflow-hidden rounded-2xl glass-soft shadow-soft transition-luxury hover:shadow-floating">
       {/* badge */}
@@ -81,7 +85,11 @@ export function ProductCard({ flower, badge }: ProductCardProps) {
         </div>
 
         {/* CTA */}
-        <ProductCardCTA />
+        <ProductCardCTA 
+          onClick={() => handleAddToCart(flower, 1)}
+          disabled={isPending || flower.stock === 0}
+          isLoading={isPending}
+        />
       </div>
     </article>
   )

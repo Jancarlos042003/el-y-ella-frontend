@@ -2,7 +2,6 @@
 
 import { useState } from 'react'
 import Image from 'next/image'
-import { toast } from 'sonner'
 import { HugeiconsIcon } from '@hugeicons/react'
 import {
   ShoppingCart01Icon,
@@ -13,7 +12,7 @@ import {
 } from '@hugeicons/core-free-icons'
 
 import type { FlowerResponse } from '@/types/flores.types'
-import { useAddToCart } from '@/hooks/useCarrito'
+import { useAddToCartAction } from '@/hooks/useCarrito'
 import { useMe } from '@/hooks/useAuth'
 import { ROUTES } from '@/constants/routes'
 import { cn } from '@/lib/utils'
@@ -24,22 +23,11 @@ interface ProductDetailProps {
 
 export function ProductDetail({ flower }: ProductDetailProps) {
   const [quantity, setQuantity] = useState(1)
-  const { mutate: addToCart, isPending } = useAddToCart()
+  const { handleAddToCart, isPending } = useAddToCartAction()
   const { data: me } = useMe()
 
   const rating = flower.averageRating ?? 4.8
   const reviewCount = flower.reviewCount ?? 0
-
-  function handleAddToCart() {
-    addToCart(
-      { flowerId: flower.id, quantity, flower },
-      {
-        onSuccess: () => toast.success('Añadido al carrito'),
-        onError: () => toast.error('No se pudo añadir al carrito. Inténtalo de nuevo.'),
-      }
-    )
-  }
-
 
   return (
     <div className="mx-auto max-w-[90rem] px-4 py-10 md:px-6">
@@ -138,7 +126,7 @@ export function ProductDetail({ flower }: ProductDetailProps) {
 
             <button
               type="button"
-              onClick={handleAddToCart}
+              onClick={() => handleAddToCart(flower, quantity)}
               disabled={isPending || flower.stock === 0}
               className="flex flex-1 items-center justify-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-semibold text-white transition-luxury hover:bg-primary-dark disabled:opacity-60"
             >
