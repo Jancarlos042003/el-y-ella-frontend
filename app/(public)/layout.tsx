@@ -1,5 +1,4 @@
 import { Navbar } from '@/components/layout/Navbar'
-import { Footer } from '@/components/layout/Footer'
 
 export default function PublicLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -9,7 +8,6 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
       <main className="min-h-screen pt-[5.5rem] pb-16 lg:pb-0">
         {children}
       </main>
-      <Footer />
     </>
   )
 }
