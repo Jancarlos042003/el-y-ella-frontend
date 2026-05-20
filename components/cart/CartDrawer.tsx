@@ -21,7 +21,6 @@ import {
 import { Button } from "@/components/ui/button"
 import { useSaleStore } from "@/store/saleStore"
 import { useCarrito, useClearCart } from "@/hooks/useCarrito"
-import { useMe } from "@/hooks/useAuth"
 import { ROUTES } from "@/constants/routes"
 import { cn } from "@/lib/utils"
 import Link from "next/link"
@@ -31,19 +30,14 @@ export function CartDrawer() {
   const router = useRouter()
   const { isCartOpen, setIsCartOpen } = useSaleStore()
   const { data: cart = [], isLoading } = useCarrito()
-  const { data: user } = useMe()
 
   const clearCart = useClearCart()
 
   const total = cart.reduce((acc, item) => acc + item.subtotal, 0)
 
-  const handleCheckout = () => {
+  const handleReviewOrder = () => {
     setIsCartOpen(false)
-    if (!user) {
-      router.push(ROUTES.login)
-    } else {
-      router.push(ROUTES.pago)
-    }
+    router.push(ROUTES.carrito)
   }
 
   return (
@@ -110,11 +104,11 @@ export function CartDrawer() {
 
               <div className="flex flex-col gap-3">
                 <Button
-                  onClick={handleCheckout}
+                  onClick={handleReviewOrder}
                   size="lg"
                   className="shadow-soft transition-luxury hover:bg-primary-dark h-14 w-full rounded-full bg-primary text-base font-bold text-white active:scale-[0.98]"
                 >
-                  Finalizar Compra
+                  Revisar pedido
                 </Button>
                 <Button
                   variant="ghost"
