@@ -1,10 +1,12 @@
 "use client"
 
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
+import { toast } from 'sonner'
 import api from '@/lib/api'
 import { useSaleStore } from '@/store/saleStore'
 import type { CartResponse, CartItemRequest, AddToCartInput } from '@/types/carrito.types'
 import type { AuthResponse } from '@/types/auth.types'
+import type { FlowerResponse } from '@/types/flores.types'
 import {
   getGuestCart,
   addToGuestCart,
@@ -56,6 +58,22 @@ export function useAddToCart() {
       if (cart) setCartCount(cart.length)
     },
   })
+}
+
+export function useAddToCartAction() {
+  const { mutate, isPending } = useAddToCart()
+
+  const handleAddToCart = (flower: FlowerResponse, quantity: number = 1) => {
+    mutate(
+      { flowerId: flower.id, quantity, flower },
+      {
+        onSuccess: () => toast.success(`${flower.name} añadido al carrito`),
+        onError: () => toast.error('No se pudo añadir al carrito. Inténtalo de nuevo.'),
+      }
+    )
+  }
+
+  return { handleAddToCart, isPending }
 }
 
 export function useUpdateCartItem() {

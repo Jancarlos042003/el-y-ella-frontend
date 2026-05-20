@@ -8,6 +8,7 @@ import {
   MinusSignIcon,
   Delete02Icon,
   ShoppingCart01Icon,
+  ShoppingBasket01Icon,
 } from "@hugeicons/core-free-icons"
 
 import {
@@ -19,15 +20,12 @@ import {
 } from "@/components/ui/sheet"
 import { Button } from "@/components/ui/button"
 import { useSaleStore } from "@/store/saleStore"
-import {
-  useCarrito,
-  useUpdateCartItem,
-  useRemoveCartItem,
-  useClearCart,
-} from "@/hooks/useCarrito"
+import { useCarrito, useClearCart } from "@/hooks/useCarrito"
 import { useMe } from "@/hooks/useAuth"
 import { ROUTES } from "@/constants/routes"
 import { cn } from "@/lib/utils"
+import Link from "next/link"
+import { CartItem } from "./CartItem"
 
 export function CartDrawer() {
   const router = useRouter()
@@ -35,22 +33,9 @@ export function CartDrawer() {
   const { data: cart = [], isLoading } = useCarrito()
   const { data: user } = useMe()
 
-  const updateItem = useUpdateCartItem()
-  const removeItem = useRemoveCartItem()
   const clearCart = useClearCart()
 
   const total = cart.reduce((acc, item) => acc + item.subtotal, 0)
-
-  const handleUpdateQuantity = (
-    id: number,
-    flowerId: number,
-    currentQty: number,
-    delta: number
-  ) => {
-    const newQty = currentQty + delta
-    if (newQty < 1) return
-    updateItem.mutate({ id, data: { flowerId, quantity: newQty } })
-  }
 
   const handleCheckout = () => {
     setIsCartOpen(false)
@@ -82,97 +67,30 @@ export function CartDrawer() {
             <div className="flex flex-col items-center justify-center gap-4 py-20 text-center">
               <div className="rounded-full bg-primary/5 p-6">
                 <HugeiconsIcon
-                  icon={ShoppingCart01Icon}
-                  className="size-12 text-primary/20"
+                  icon={ShoppingBasket01Icon}
+                  className="size-12 text-primary"
                 />
               </div>
-              <p className="font-serif text-xl font-medium text-foreground/60">
-                Tu carrito está vacío
-              </p>
-              <Button
-                variant="ghost"
+              <div className="flex flex-col gap-2">
+                <h1 className="font-serif text-3xl font-bold text-foreground">
+                  Tu carrito está vacío
+                </h1>
+                <p className="text-foreground/60">
+                  ¿Aún no has elegido el detalle perfecto?
+                </p>
+              </div>
+              <Link
+                href={ROUTES.home}
                 onClick={() => setIsCartOpen(false)}
-                className="rounded-full border border-primary/20 text-primary hover:bg-primary/5"
+                className="transition-luxury hover:bg-primary-dark rounded-full bg-primary px-8 py-3 font-semibold text-white"
               >
                 Explorar catálogo
-              </Button>
+              </Link>
             </div>
           ) : (
             <div className="flex flex-col gap-6 px-1">
               {cart.map((item) => (
-                <div key={item.id} className="group flex gap-4">
-                  <div className="shadow-soft relative size-24 shrink-0 overflow-hidden rounded-2xl bg-muted">
-                    <Image
-                      src={item.flowerImageUrl || "/images/placeholder.png"}
-                      alt={item.flowerName}
-                      fill
-                      className="object-cover transition-transform duration-500 group-hover:scale-110"
-                    />
-                  </div>
-                  <div className="flex flex-1 flex-col justify-between py-1">
-                    <div className="flex items-start justify-between gap-2">
-                      <h4 className="line-clamp-2 font-serif text-lg leading-tight font-medium text-foreground">
-                        {item.flowerName}
-                      </h4>
-                      <button
-                        onClick={() =>
-                          removeItem.mutate(user ? item.id : item.flowerId)
-                        }
-                        className="transition-luxury text-foreground/30 hover:text-destructive"
-                        aria-label="Eliminar producto"
-                      >
-                        <HugeiconsIcon icon={Delete02Icon} className="size-4" />
-                      </button>
-                    </div>
-
-                    <div className="flex items-end justify-between">
-                      <div className="flex items-center gap-1 rounded-full border border-primary/10 bg-primary/5 p-1">
-                        <button
-                          onClick={() =>
-                            handleUpdateQuantity(
-                              item.id,
-                              item.flowerId,
-                              item.quantity,
-                              -1
-                            )
-                          }
-                          className="transition-luxury flex size-7 items-center justify-center rounded-full text-primary hover:bg-primary/10 disabled:opacity-30"
-                          disabled={item.quantity <= 1 || updateItem.isPending}
-                        >
-                          <HugeiconsIcon
-                            icon={MinusSignIcon}
-                            className="size-3.5"
-                          />
-                        </button>
-                        <span className="w-6 text-center text-sm font-bold text-primary">
-                          {item.quantity}
-                        </span>
-                        <button
-                          onClick={() =>
-                            handleUpdateQuantity(
-                              item.id,
-                              item.flowerId,
-                              item.quantity,
-                              1
-                            )
-                          }
-                          className="transition-luxury flex size-7 items-center justify-center rounded-full text-primary hover:bg-primary/10 disabled:opacity-30"
-                          disabled={updateItem.isPending}
-                        >
-                          <HugeiconsIcon
-                            icon={Add01Icon}
-                            className="size-3.5"
-                          />
-                        </button>
-                      </div>
-                      <div className="text-right">
-                        <p className="font-sans text-sm font-bold text-primary">
-                          ${item.subtotal.toFixed(2)}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                <CartItem key={item.id} item={item} variant="compact" />
               ))}
             </div>
           )}

@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from 'next/server'
 
 const JWT_SECRET = new TextEncoder().encode(process.env.JWT_SECRET)
 
-const AUTH_ROUTES = ['/carrito', '/pago', '/pedidos', '/perfil']
+const AUTH_ROUTES = ['/pago', '/pedidos', '/perfil']
 const ADMIN_ROUTES = ['/admin']
 
 export async function proxy(request: NextRequest) {
@@ -30,5 +30,5 @@ export async function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/carrito/:path*', '/pago/:path*', '/pedidos/:path*', '/perfil/:path*', '/admin/:path*'],
+  matcher: ['/pago/:path*', '/pedidos/:path*', '/perfil/:path*', '/admin/:path*'],
 }
