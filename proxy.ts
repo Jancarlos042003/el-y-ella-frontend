@@ -14,7 +14,9 @@ export async function proxy(request: NextRequest) {
   const isAdmin = ADMIN_ROUTES.some((r) => pathname.startsWith(r))
 
   if ((isAuth || isAdmin) && !token) {
-    return NextResponse.redirect(new URL('/login', request.url))
+    // Preservar la ruta protegida como ?redirect= para que el login pueda regresar al destino
+    const redirectTo = encodeURIComponent(pathname)
+    return NextResponse.redirect(new URL(`/login?redirect=${redirectTo}`, request.url))
   }
 
   if (isAdmin && token) {
