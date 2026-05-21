@@ -25,13 +25,13 @@ export const orderResponseSchema = z.object({
   userId: z.number(),
   userName: z.string(),
   total: z.number(),
-  status: z.enum(['PENDING', 'SHIPPED', 'DELIVERED', 'CANCELLED']),
+  status: z.enum(['PENDING', 'RESERVED', 'PAID', 'SHIPPED', 'DELIVERED', 'CANCELLED', 'EXPIRED']),
   createdAt: z.string(),
   details: z.array(orderDetailResponseSchema),
 })
 
 export const updateOrderStatusSchema = z.object({
-  status: z.enum(['PENDING', 'SHIPPED', 'DELIVERED', 'CANCELLED']),
+  status: z.enum(['PENDING', 'RESERVED', 'PAID', 'SHIPPED', 'DELIVERED', 'CANCELLED', 'EXPIRED']),
 })
 
 export const flowerRequestSchema = z.object({
