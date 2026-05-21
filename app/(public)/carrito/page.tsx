@@ -27,7 +27,7 @@ export default function CarritoPage() {
   function handleCheckout() {
     if (!user) {
       toast.info("Inicia sesión para finalizar tu compra")
-      router.push(ROUTES.login)
+      router.push(`${ROUTES.login}?redirect=${encodeURIComponent(ROUTES.pago)}`)
       return
     }
     router.push(ROUTES.pago)
