@@ -1,6 +1,6 @@
 'use client'
 
-import { useMemo } from 'react'
+import { Suspense, useMemo } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { AlertCircleIcon } from '@hugeicons/core-free-icons'
 
@@ -11,7 +11,8 @@ import { PaymentPageShell } from '@/components/payment/PaymentPageShell'
 import { PaymentStatusCard } from '@/components/payment/PaymentStatusCard'
 import { PaymentStatusEmpty } from '@/components/payment/PaymentStatusEmpty'
 
-export default function PagoPendientePage() {
+// Componente interno que lee los searchParams — debe estar dentro de Suspense
+function PagoPendienteContent() {
   const searchParams = useSearchParams()
 
   const parsedQuery = useMemo(
@@ -75,5 +76,14 @@ export default function PagoPendientePage() {
         actions={[{ href: ROUTES.pedido(orderId), label: 'Ver detalle del pedido' }]}
       />
     </PaymentPageShell>
+  )
+}
+
+// Suspense es obligatorio cuando un Client Component usa useSearchParams en Next.js
+export default function PagoPendientePage() {
+  return (
+    <Suspense>
+      <PagoPendienteContent />
+    </Suspense>
   )
 }

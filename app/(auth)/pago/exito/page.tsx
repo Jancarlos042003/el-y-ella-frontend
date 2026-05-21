@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useMemo } from 'react'
+import { Suspense, useEffect, useMemo } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { useQueryClient } from '@tanstack/react-query'
 import { CheckmarkCircle02Icon } from '@hugeicons/core-free-icons'
@@ -15,7 +15,8 @@ import { PaymentPageShell } from '@/components/payment/PaymentPageShell'
 import { PaymentStatusCard } from '@/components/payment/PaymentStatusCard'
 import { PaymentStatusEmpty } from '@/components/payment/PaymentStatusEmpty'
 
-export default function PagoExitoPage() {
+// Componente interno que lee los searchParams — debe estar dentro de Suspense
+function PagoExitoContent() {
   const searchParams = useSearchParams()
   const queryClient = useQueryClient()
   const setCartCount = useSaleStore((s) => s.setCartCount)
@@ -98,5 +99,14 @@ export default function PagoExitoPage() {
         />
       </PaymentStatusCard>
     </PaymentPageShell>
+  )
+}
+
+// Suspense es obligatorio cuando un Client Component usa useSearchParams en Next.js
+export default function PagoExitoPage() {
+  return (
+    <Suspense>
+      <PagoExitoContent />
+    </Suspense>
   )
 }
