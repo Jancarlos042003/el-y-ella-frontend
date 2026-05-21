@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useSearchParams } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { HugeiconsIcon } from '@hugeicons/react'
@@ -22,7 +23,9 @@ import { cn } from '@/lib/utils'
 
 export function LoginForm() {
   const [showPassword, setShowPassword] = useState(false)
-  const { mutate, isPending } = useLogin()
+  const searchParams = useSearchParams()
+  const redirectTo = searchParams.get('redirect')
+  const { mutate, isPending } = useLogin(redirectTo)
 
   const {
     register,

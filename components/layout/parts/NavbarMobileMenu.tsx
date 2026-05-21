@@ -4,15 +4,17 @@ import Link from "next/link"
 import { motion, AnimatePresence } from "motion/react"
 import { HugeiconsIcon } from "@hugeicons/react"
 import { User02Icon, Logout01Icon } from "@hugeicons/core-free-icons"
+
 import { ROUTES } from "@/constants/routes"
-import { cn } from "@/lib/utils"
+import type { useLogout } from "@/hooks/useAuth"
+import type { AuthResponse } from "@/types/auth.types"
 
 interface NavbarMobileMenuProps {
   isOpen: boolean
   onClose: () => void
   navLinks: { label: string; href: string }[]
-  user: any
-  logout: any
+  user?: AuthResponse
+  logout: Pick<ReturnType<typeof useLogout>, 'mutate' | 'isPending'>
 }
 
 export function NavbarMobileMenu({
